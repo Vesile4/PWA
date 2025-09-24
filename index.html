@@ -1,115 +1,272 @@
-<!-- Create a simple Program to build the Calculator in JavaScript using with HTML and CSS web languages. -->  
-<!DOCTYPE html>  
-<html lang = "en">  
-<head>  
-<title> JavaScript Calculator </title>  
-<link rel="manifest" href="src/manifest.json">
-  
-<style>  
-h1 {  
-    text-align: center;  
-    padding: 22px;  
-    background-color: skyblue;  
-    color: white;  
-    }  
-  
-#clear{  
-width: 270px;  
-border: 3px solid gray;  
-    border-radius: 3px;  
-    padding: 20px;  
-    background-color: red;  
-}  
-  
-.formstyle  
-{  
-width: 300px;  
-height: 530px;  
-margin: auto;  
-border: 3px solid skyblue;  
-border-radius: 5px;  
-padding: 20px;  
-}  
-  
-  
-  
-input  
-{  
-width: 20px;  
-background-color: green;  
-color: white;  
-border: 3px solid gray;  
-    border-radius: 5px;  
-    padding: 26px;  
-    margin: 5px;  
-    font-size: 15px;  
-}  
-  
-  
-#calc{  
-width: 250px;  
-border: 5px solid black;  
-    border-radius: 3px;  
-    padding: 20px;  
-    margin: auto;  
-}  
-  
-</style>  
-  
-</head>  
-<body>  
-    
-<h1> Calculator Program in JavaScript </h1>  
-<div class= "formstyle">  
-<form name = "form1">  
-      
-    <!-- This input box shows the button pressed by the user in calculator. -->  
-  <input id = "calc" type ="text" name = "answer"> <br> <br>  
-  <!-- Display the calculator button on the screen. -->  
-  <!-- onclick() function display the number prsses by the user. -->  
-  <input type = "button" value = "1" onclick = "form1.answer.value += '1' ">  
-  <input type = "button" value = "2" onclick = "form1.answer.value += '2' ">  
-  <input type = "button" value = "3" onclick = "form1.answer.value += '3' ">  
-   <input type = "button" value = "+" onclick = "form1.answer.value += '+' ">  
-  <br> <br>  
-    
-  <input type = "button" value = "4" onclick = "form1.answer.value += '4' ">  
-  <input type = "button" value = "5" onclick = "form1.answer.value += '5' ">  
-  <input type = "button" value = "6" onclick = "form1.answer.value += '6' ">  
-  <input type = "button" value = "-" onclick = "form1.answer.value += '-' ">  
-  <br> <br>  
-    
-  <input type = "button" value = "7" onclick = "form1.answer.value += '7' ">  
-  <input type = "button" value = "8" onclick = "form1.answer.value += '8' ">  
-  <input type = "button" value = "9" onclick = "form1.answer.value += '9' ">  
-  <input type = "button" value = "*" onclick = "form1.answer.value += '*' ">  
-  <br> <br>  
-    
-    
-  <input type = "button" value = "/" onclick = "form1.answer.value += '/' ">  
-  <input type = "button" value = "0" onclick = "form1.answer.value += '0' ">  
-    <input type = "button" value = "." onclick = "form1.answer.value += '.' ">  
-    <!-- When we click on the '=' button, the onclick() shows the sum results on the calculator screen. -->  
-  <input type = "button" value = "=" onclick = "form1.answer.value = eval(form1.answer.value) ">  
-  <br>   
-  <!-- Display the Cancel button and erase all data entered by the user. -->  
-  <input type = "button" value = "Clear All" onclick = "form1.answer.value = ' ' " id= "clear" >  
-  <br>   
-    
-</form>  
-</div>  
-<script>
-    if ("serviceWorker" in navigator) {
-        console.log("Service Worker supported");
-        navigator.serviceWorker.register("./sw.js").then(ServiceWorkerRegistration => {
-            console.log("SW Registered");
-            console.log(ServiceWorkerRegistration);
-        }).catch(error => {
-            console.log("SW Registration failed");
-            console.log(error);
-        })
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weer • Tijd • Datum</title>
+  <style>
+    :root{
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --accent: #2b8cff;
+      --muted: #666;
     }
-</script>
-</body>  
-</html>  
+    body{
+      margin:0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #e9f0ff 0%, var(--bg) 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:20px;
+    }
+    .container{
+      width: 420px;
+      background:var(--card);
+      border-radius:14px;
+      box-shadow:0 10px 30px rgba(20,40,80,0.12);
+      padding:18px;
+    }
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .datetime{
+      display:flex;
+      flex-direction:column;
+    }
+    .time{
+      font-size:1.6rem;
+      font-weight:700;
+    }
+    .date{
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+    .weather-card{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      padding:12px;
+      border-radius:10px;
+      background: linear-gradient(90deg, rgba(43,140,255,0.09), rgba(255,255,255,0));
+    }
+    .weather-icon{
+      width:72px;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+      border-radius:12px;
+      background:rgba(255,255,255,0.6);
+    }
+    .weather-info{ flex:1; }
+    .temp{
+      font-size:1.4rem;
+      font-weight:700;
+    }
+    .desc{
+      color:var(--muted);
+      text-transform: capitalize;
+    }
+    .controls{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+    }
+    input[type="text"]{
+      flex:1;
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #e0e6f0;
+      outline:none;
+    }
+    button{
+      padding:9px 12px;
+      border-radius:8px;
+      border:none;
+      background:var(--accent);
+      color:white;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .meta{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:0.9rem;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    @media (max-width:480px){
+      .container{ width:100%; padding:14px; }
+      .weather-icon{ width:60px; height:60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="datetime">
+        <div id="time" class="time">--:--:--</div>
+        <div id="date" class="date">Loading...</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700">Mijn weer</div>
+        <div style="color:var(--muted); font-size:0.85rem">Actuele data</div>
+      </div>
+    </div>
+
+    <div class="weather-card" id="weatherCard">
+      <div class="weather-icon" id="weatherIcon">☁️</div>
+      <div class="weather-info">
+        <div id="location" style="font-weight:700">Locatie</div>
+        <div style="display:flex; gap:12px; align-items:center; margin-top:6px;">
+          <div class="temp" id="temp">--°C</div>
+          <div class="desc" id="desc">--</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input type="text" id="cityInput" placeholder="Zoek stad (bv. Amsterdam)" />
+      <button id="searchBtn">Zoek</button>
+      <button id="locBtn" title="Gebruik mijn locatie (browser)">📍</button>
+    </div>
+
+    <div class="meta">
+      <div id="lastUpdated">Niet bijgewerkt</div>
+      <div id="wind">Wind: --</div>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIGUREER HIER JE API KEY ---
+    const API_KEY = '50dc6a131a56d1bc3713827427110094'; // vervang door je eigen OpenWeatherMap API key
+
+    // DOM elementen
+    const timeEl = document.getElementById('time');
+    const dateEl = document.getElementById('date');
+    const tempEl = document.getElementById('temp');
+    const descEl = document.getElementById('desc');
+    const locationEl = document.getElementById('location');
+    const weatherIconEl = document.getElementById('weatherIcon');
+    const lastEl = document.getElementById('lastUpdated');
+    const windEl = document.getElementById('wind');
+
+    // Live klok + datum (update elke seconde)
+    function updateClock(){
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      const ss = String(now.getSeconds()).padStart(2,'0');
+      timeEl.textContent = `${hh}:${mm}:${ss}`;
+
+      const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+      dateEl.textContent = now.toLocaleDateString('nl-NL', options);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Helper: toon data
+    function showWeather(data){
+      if(!data) return;
+      const c = Math.round(data.main.temp);
+      tempEl.textContent = `${c}°C`;
+      descEl.textContent = data.weather && data.weather[0] ? data.weather[0].description : '';
+      locationEl.textContent = `${data.name}${data.sys && data.sys.country ? ', ' + data.sys.country : ''}`;
+      windEl.textContent = `Wind: ${data.wind?.speed ?? '--'} m/s`;
+      lastEl.textContent = `Bijgewerkt: ${new Date().toLocaleTimeString('nl-NL')}`;
+
+      // icon via OpenWeatherMap (gebruik icon code)
+      const iconCode = data.weather && data.weather[0] ? data.weather[0].icon : null;
+      if(iconCode){
+        // icon URL (2x)
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        weatherIconEl.innerHTML = `<img src="${iconUrl}" alt="${data.weather[0].description}" style="width:72px;height:72px">`;
+      } else {
+        weatherIconEl.textContent = '—';
+      }
+    }
+
+    // Fetch weather by coordinates
+    async function fetchWeatherByCoords(lat, lon){
+      try{
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=nl&appid=${API_KEY}`;
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Geen data');
+        const data = await res.json();
+        showWeather(data);
+      } catch(err){
+        console.error(err);
+        locationEl.textContent = 'Weer niet beschikbaar';
+        descEl.textContent = '';
+        tempEl.textContent = '--°C';
+        lastEl.textContent = 'Fout bij ophalen weer';
+      }
+    }
+
+    // Fetch weather by city name (query)
+    async function fetchWeatherByCity(city){
+      if(!city) return;
+      try{
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&lang=nl&appid=${API_KEY}`;
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Stad niet gevonden');
+        const data = await res.json();
+        showWeather(data);
+      } catch(err){
+        console.error(err);
+        locationEl.textContent = 'Stad niet gevonden';
+        descEl.textContent = '';
+        tempEl.textContent = '--°C';
+        lastEl.textContent = 'Fout bij zoeken stad';
+      }
+    }
+
+    // Gebruik browser geolocation als mogelijk
+    document.getElementById('locBtn').addEventListener('click', () => {
+      if(!navigator.geolocation){
+        alert('Geolocatie niet ondersteund door je browser');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(pos => {
+        fetchWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
+      }, err => {
+        alert('Locatie geweigerd of niet beschikbaar');
+      });
+    });
+
+    // Zoek knop
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const city = document.getElementById('cityInput').value.trim();
+      if(city) fetchWeatherByCity(city);
+    });
+
+    // Enter op invoerveld moet ook zoeken
+    document.getElementById('cityInput').addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') document.getElementById('searchBtn').click();
+    });
+
+    // Default: probeer locatie automatisch (stil proberen)
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(pos => {
+        fetchWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
+      }, () => {
+        // als gebruiker weigert, laad standaard stad
+        fetchWeatherByCity('Amsterdam');
+      });
+    } else {
+      fetchWeatherByCity('Amsterdam');
+    }
+  </script>
+</body>
+</html>
+
 
